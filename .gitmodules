@@ -1,21 +1,10 @@
 [submodule "src/sjtu-drone"]
 	path = src/sjtu-drone
 	url = https://github.com/Tao-wecorp/sjtu-drone
-[submodule "src/openai_ros"]
-	path = src/openai_ros
-	url = https://github.com/Tao-wecorp/openai_ros
 [submodule "src/vision_opencv"]
 	path = src/vision_opencv
-	url = https://github.com/Tao-wecorp/vision_opencv
+	url = https://github.com/OAkyildiz/vision_opencv.git
 [submodule "src/geometry2"]
 	path = src/geometry2
 	url = https://github.com/Tao-wecorp/geometry2
-[submodule "src/stable-baselines"]
-	path = src/stable-baselines
-	url = https://github.com/hill-a/stable-baselines
-[submodule "src/rl-baselines-zoo"]
-	path = src/rl-baselines-zoo
-	url = https://github.com/araffin/rl-baselines-zoo
-[submodule "src/stable-baselines3"]
-	path = src/stable-baselines3
-	url = https://github.com/DLR-RM/stable-baselines3
+
