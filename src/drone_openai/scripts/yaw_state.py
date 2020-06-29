@@ -30,9 +30,14 @@ gazebo = GazeboConnection()
 
 class Yaw(object):
     def __init__(self):
+        # Reset world
+        rospy.wait_for_service('/gazebo/reset_world')
+        reset_world = rospy.ServiceProxy('/gazebo/reset_world', Empty)
+        reset_world()
+
         # Init
         rospy.init_node('yaw_node', anonymous=True)
-        self.rate = rospy.Rate(10)
+        self.rate = rospy.Rate(5)
         self.frame = None
         self.bridge_object = CvBridge()
         self.centroids = []
@@ -46,6 +51,7 @@ class Yaw(object):
 
         self.states_sub = rospy.Subscriber("/gazebo/model_states",ModelStates,self.states_callback)
         self.set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
+        
 
         # Takeoff & Land
         control.takeoff()
