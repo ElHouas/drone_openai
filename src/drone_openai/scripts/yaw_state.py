@@ -13,15 +13,12 @@ from geometry_msgs.msg import Point, Pose, Quaternion, Twist
 from copy import deepcopy
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
-from cvlib.object_detection import draw_bbox
 
 from math import *
 import numpy as np
 import time
 
 # Helpers
-from helpers.cvlib import Detection
-detection = Detection()
 
 from helpers.control import Control
 control = Control()
@@ -38,11 +35,15 @@ class Yaw(object):
         self.rate = rospy.Rate(10)
         self.frame = None
         self.bridge_object = CvBridge()
-        
+        self.centroids = []
+
         self.robot_position = None
 
         # Sub & Pub
-        rospy.Subscriber("/drone/front_camera/image_raw",Image,self.cam_callback)
+        #rospy.Subscriber("/drone/front_camera/image_raw",Image,self.cam_callback)
+        rospy.Subscriber("/aiming/target_point", Point, self.point_callback)
+
+
         self.states_sub = rospy.Subscriber("/gazebo/model_states",ModelStates,self.states_callback)
         self.set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
 
@@ -56,14 +57,12 @@ class Yaw(object):
         while not rospy.is_shutdown():
             if self.frame is not None:
                 start_time = time.time()
-                frame = deepcopy(self.frame)
                 robot_position = deepcopy(self.robot_position)
                 
-                centroids = detection.detect(frame)
-                if len(centroids)==0: 
+                if len(self.centroids)==0: 
                     continue
                 else:
-                    cent = centroids[0]
+                    cent = self.centroids
                     yaw_angle = control.yaw(cent)
                     rospy.wait_for_service('/gazebo/set_model_state')
                     try:
@@ -76,13 +75,13 @@ class Yaw(object):
                     except rospy.ServiceException:
                         pass
 
-                    cv2.circle(frame, (320, cent[1]), 3, [0,0,255], -1, cv2.LINE_AA)
-                    cv2.circle(frame, (cent[0], cent[1]), 3, [0,255,0], -1, cv2.LINE_AA)
+                    #cv2.circle(frame, (320, cent[1]), 3, [0,0,255], -1, cv2.LINE_AA)
+                    #cv2.circle(frame, (cent[0], cent[1]), 3, [0,255,0], -1, cv2.LINE_AA)
 
-                cv2.imshow("", frame)
-                cv2.waitKey(1)
+                #cv2.imshow("", frame)
+                #cv2.waitKey(1)
                  
-                print("%s seconds" % (time.time() - start_time))
+                #print("%s seconds" % (time.time() - start_time))
                 time.sleep((time.time() - start_time))
                 
             self.rate.sleep()
@@ -95,6 +94,10 @@ class Yaw(object):
             print(e)
         self.frame = cv_img
     
+    def point_callback(self,data):
+        self.centroids = [int(data.x), int(data.y)]
+        
+
     def states_callback(self,data):
         self.robot_position = data.pose[2].position   
     
