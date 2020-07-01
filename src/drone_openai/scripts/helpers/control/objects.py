@@ -5,6 +5,7 @@ import time
 from math import *
 from std_msgs.msg import Empty
 from geometry_msgs.msg import Twist
+fpv = [320, 480] #320 half of width
 
 class Control:
     def __init__(self):
@@ -52,7 +53,8 @@ class Control:
         self_pub_cmd_vel.publish(self._move_msg)
 
     def yaw(self, position):
-        new_goal = degrees(atan(float(320-position[0])/(480-position[1])))
+        new_goal = degrees(atan(float(fpv[0]-position[0])/(fpv[1]-position[1])))
+        print("new_goal",new_goal)
         yaw = new_goal + self.goal
         self.goal = yaw
         return yaw
