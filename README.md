@@ -3,19 +3,28 @@ Running SJTU Drone with Gazebo simulation, OpenAI Gym and Stable Baselines
 
 ## ROS Network
 
-###Laptop(HOST)
-ssh localhost
-export ROS_MASTER_URI=http://lenovo:11311
-rosrun rospy_tutorials listener.py
+### Laptop(HOST)
 
-###Jetson
-ssh localhost
-export ROS_MASTER_URI=http://<host-ip-address>:11311
-rosrun rospy_tutorials talker.py
+- ssh localhost
+- roscore
 
-https://github.com/ut-ims-robotics/tutorials/wiki/Running-ROS-over-multiple-computers
-http://wiki.ros.org/ROS/NetworkSetup
-http://wiki.ros.org/ROS/Tutorials/MultipleMachines
+### Laptop
+
+- export ROS_MASTER_URI=http://<HOST-NAME>:11311
+- export ROS_IP=<Laptop-IP>
+- rosrun rospy_tutorials listener.py
+
+### Jetson
+
+- export ROS_MASTER_URI=http://<HOST-NAME>:11311
+- export ROS_IP=<Jetson-IP>
+- rosrun rospy_tutorials talker.py
+
+### Network Tutorials
+[ROS-Multiple-Computers](https://github.com/ut-ims-robotics/tutorials/wiki/Running-ROS-over-multiple-computers)
+[NetworkSetup](http://wiki.ros.org/ROS/NetworkSetup)
+[MultipleMachines](http://wiki.ros.org/ROS/Tutorials/MultipleMachines)
+
 ## Env
 Install Env from requirements.txt
 
