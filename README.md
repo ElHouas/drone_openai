@@ -21,9 +21,9 @@ Running SJTU Drone with Gazebo simulation, OpenAI Gym and Stable Baselines
 - rosrun rospy_tutorials talker.py
 
 ### Network Tutorials
-[ROS-Multiple-Computers](https://github.com/ut-ims-robotics/tutorials/wiki/Running-ROS-over-multiple-computers)
-[NetworkSetup](http://wiki.ros.org/ROS/NetworkSetup)
-[MultipleMachines](http://wiki.ros.org/ROS/Tutorials/MultipleMachines)
+- [ROS-Multiple-Computers](https://github.com/ut-ims-robotics/tutorials/wiki/Running-ROS-over-multiple-computers)
+- [NetworkSetup](http://wiki.ros.org/ROS/NetworkSetup)
+- [MultipleMachines](http://wiki.ros.org/ROS/Tutorials/MultipleMachines)
 
 ## Env
 Install Env from requirements.txt
