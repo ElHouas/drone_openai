@@ -1,11 +1,13 @@
 #! /usr/bin/env python
 
+import numpy as np
 import rospy
 import time
 from math import *
 from std_msgs.msg import Empty
 from geometry_msgs.msg import Twist
 fpv = [320, 480] #320 half of width
+HFOV = 60.
 
 class Control:
     def __init__(self):
@@ -53,8 +55,10 @@ class Control:
         self_pub_cmd_vel.publish(self._move_msg)
 
     def yaw(self, position):
-        new_goal = degrees(atan(float(fpv[0]-position[0])/(fpv[1]-position[1])))
-        print("new_goal",new_goal)
+        f = 640.
+        alpha = 0.2 * HFOV/f
+        new_goal = alpha * float(fpv[0] - position[0])
+        # print("new_goal",new_goal)
         yaw = new_goal + self.goal
         self.goal = yaw
         return yaw
