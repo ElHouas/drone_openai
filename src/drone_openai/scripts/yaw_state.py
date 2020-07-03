@@ -65,7 +65,6 @@ class Yaw(object):
                 robot_position = deepcopy(self.robot_position)
                 frame = deepcopy(self.frame)
                 
-                # print("self.centroids",self.centroids)
                 if len(self.centroids)==0: 
                     continue
                 else:
