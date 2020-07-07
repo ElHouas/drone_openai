@@ -11,9 +11,8 @@ fpv = [320, 480] #320 half of width
 
 HFOV = 86
 DFOV = 98.77
+#HFOV = 60
 
-
->>>>>>> 50bcf1d0e1655ba5732897e7f7c6b40ad9d4fcbd
 class Control:
     def __init__(self):
         self.goal = 0.0  # [angle]
@@ -62,14 +61,14 @@ class Control:
     def yaw(self, position):
         #Old
         #f = np.sqrt(640**2+480**2)
-        #alpha = DFOV/f
+        #alpha = HFOV/f
         #new_goal = alpha * float(fpv[0] - position[0])
 
         #Adaptable angle Latest 
         f = 640.
-        alpha = 0.2 * HFOV/f
+        alpha = 0.7 * HFOV/f
         new_goal = alpha * float(fpv[0] - position[0])
 
         yaw = new_goal + self.goal
         self.goal = yaw
-        return yaw
+        return new_goal

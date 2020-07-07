@@ -38,7 +38,6 @@ class Yaw(object):
         # Init
         rospy.init_node('yaw_node', anonymous=True)
         #self.rate = rospy.Rate(5)# 0.05s-> Change adapt to the rate that requires te code
-
         self.rate = rospy.Rate(30) # 0.05s-> Change adapt to the rate that requires te code
 
         self.frame = None
