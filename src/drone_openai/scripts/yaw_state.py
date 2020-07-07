@@ -37,7 +37,7 @@ class Yaw(object):
 
         # Init
         rospy.init_node('yaw_node', anonymous=True)
-        self.rate = rospy.Rate(10) # 0.05s-> Change adapt to the rate that requires te code
+        self.rate = rospy.Rate(5)# 0.05s-> Change adapt to the rate that requires te code
         self.frame = None
         self.bridge_object = CvBridge()
         self.centroids = []
@@ -64,29 +64,27 @@ class Yaw(object):
                 start_time = time.time()
                 robot_position = deepcopy(self.robot_position)
                 frame = deepcopy(self.frame)
-                
                 if len(self.centroids)==0: 
                     continue
                 else:
-                    cent = self.centroids
-                    print("cent", cent)
-                    yaw_angle = control.yaw(cent)
-                    print("yaw_angle", yaw_angle)
-                    rospy.wait_for_service('/gazebo/set_model_state')
-                    try:
-                        pose.position = robot_position
-                        print("robot_position", robot_position)
-                        pose.orientation = Quaternion(*quaternion_from_euler(0.0, 0.0, yaw_angle*pi/180))
-                        print("pose.orientation ", pose.orientation )
-                        state_robot_msg.pose = pose
+                     cent = self.centroids    
+                     yaw_angle = control.yaw(cent)
+                     print("yaw_angle", yaw_angle)
+                     rospy.wait_for_service('/gazebo/set_model_state')
+                     try:
+                         pose.position = robot_position
+                         print("robot_position", robot_position)
+                         pose.orientation = Quaternion(*quaternion_from_euler(0.0, 0.0, yaw_angle*pi/180))
+                         print("pose.orientation ", pose.orientation )
+                         state_robot_msg.pose = pose
 
-                        self.set_state(state_robot_msg)
-                    except rospy.ServiceException:
+                         self.set_state(state_robot_msg)
+                     except rospy.ServiceException:
                         pass
-
-                    cv2.circle(frame, (320, cent[1]), 3, [0,0,255], -1, cv2.LINE_AA)
-                    cv2.circle(frame, (cent[0], cent[1]), 3, [0,255,0], -1, cv2.LINE_AA)
-
+                        
+                     cv2.circle(frame, (320, cent[1]), 3, [0,0,255], -1, cv2.LINE_AA)
+                     cv2.circle(frame, (cent[0], cent[1]), 3, [0,255,0], -1, cv2.LINE_AA)
+                    
                 cv2.imshow("", frame)
                 cv2.waitKey(1)
                  
@@ -108,8 +106,8 @@ class Yaw(object):
         
 
     def states_callback(self,data):
-        self.robot_position = data.pose[2].position   
-    
+        self.robot_position = data.pose[-1].position   
+        
     def shutdown(self):
         control.land()
 
