@@ -37,7 +37,10 @@ class Yaw(object):
 
         # Init
         rospy.init_node('yaw_node', anonymous=True)
-        self.rate = rospy.Rate(5)# 0.05s-> Change adapt to the rate that requires te code
+        #self.rate = rospy.Rate(5)# 0.05s-> Change adapt to the rate that requires te code
+
+        self.rate = rospy.Rate(30) # 0.05s-> Change adapt to the rate that requires te code
+
         self.frame = None
         self.bridge_object = CvBridge()
         self.centroids = []
@@ -67,6 +70,7 @@ class Yaw(object):
                 if len(self.centroids)==0: 
                     continue
                 else:
+
                      cent = self.centroids    
                      yaw_angle = control.yaw(cent)
                      print("yaw_angle", yaw_angle)
@@ -88,7 +92,7 @@ class Yaw(object):
                 cv2.imshow("", frame)
                 cv2.waitKey(1)
                  
-                print("%s seconds" % (time.time() - start_time))
+                # print("%s seconds" % (time.time() - start_time))
                 #time.sleep((time.time() - start_time)) #slows down twice dont do it
                 
             self.rate.sleep()
@@ -107,7 +111,7 @@ class Yaw(object):
 
     def states_callback(self,data):
         self.robot_position = data.pose[-1].position   
-        
+
     def shutdown(self):
         control.land()
 
