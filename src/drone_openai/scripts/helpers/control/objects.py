@@ -8,11 +8,10 @@ from math import *
 from std_msgs.msg import Empty
 from geometry_msgs.msg import Twist
 fpv = [320, 480] #320 half of width
-<<<<<<< HEAD
+
 HFOV = 86
 DFOV = 98.77
-=======
-HFOV = 60.
+
 
 >>>>>>> 50bcf1d0e1655ba5732897e7f7c6b40ad9d4fcbd
 class Control:
